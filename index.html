@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Restaurant Inspections and Complaints in Manhattan Community District 4</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="title">
+            Restaurant Inspections and Complaints in Manhattan Community District 4
+        </div>
+        <div class="description">
+            How well do everyday citizens catch health violations in restaurants?
+            This map shows 311 calls concerning food establishments and DOHMH restaurant inspection results.
+            <br>
+            <br>
+            Zoom in and select a point for more information on the restaurant's health inspection. 
+            Did any 311 callers complain? Or was the public blissfully unaware, maybe even complicit?
+        </div>
+
+    </div>
+
+
+
+    <div id="map"></div>
+
+    <div class="map-overlay" id="legend">
+        <div>
+            <span class="title"> Legend </span>
+            <br>
+        </div>
+        <div>
+            <span class="legend-key" style="background-color:#c97fe4"></span>
+            <span>311 Calls</span>
+        </div>
+        <div>
+            <span class="legend-key" style="background-color:#7bba81"></span>
+            <span>Grade: A</span>
+        </div>
+        <div>
+            <span class="legend-key" style="background-color:#e3cc68"></span>
+            <span>Grade: B </span>
+        </div>
+        <div>
+            <span class="legend-key" style="background-color:#e85d2e"></span>
+            <span> Grade: C </span>
+        </div>
+        <div>
+            <span class="legend-key" style="background-color:#91756c"></span>
+            <span> Grade: Pending </span>
+        </div>
+    </div>
+
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="data/Complaints.js"></script>
+    <script src="data/RestaurantInspections.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
