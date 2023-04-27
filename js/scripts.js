@@ -22,80 +22,89 @@ map.on('load', function () {
         type: 'geojson',
         data: RestaurantInspections,
     }),
-    map.addSource('Complaints', {
-        type: 'geojson',
-        data: Complaints,
-        cluster: true,
-        clusterMaxZoom: 20, // Max zoom to cluster points on
-        clusterRadius: 40 // Radius of each cluster when clustering points (defaults to 50)
-    })
+        map.addSource('Complaints', {
+            type: 'geojson',
+            data: Complaints,
+            cluster: true,
+            clusterMaxZoom: 20, // Max zoom to cluster points on
+            clusterRadius: 40 // Radius of each cluster when clustering points (defaults to 50)
+        })
+
+    map.addLayer({
+        id: 'heatmap-inspections',
+        type: 'heatmap',
+        source: 'RestaurantInspections',
+        maxzoom: 15,
+        paint: {
+            // Increase the heatmap weight based on frequency and property magnitude
+            'heatmap-color': [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0,
+                'rgba(236,222,239,0)',
+                0.2,
+                'rgb(208,209,230)',
+                0.4,
+                'rgb(166,189,219)',
+                0.9,
+                'rgb(103,169,207)',
+                1,
+                'rgb(28,144,153)'
+            ],
+            // increase intensity as zoom level increases
+            'heatmap-intensity': {
+                stops: [
+                    [13, 1],
+                    [17, 3]
+                ]
+            },
+            'heatmap-weight': [
+                'interpolate',
+                ['linear'],
+                ['get', 'score'],
+                0,
+                0,
+                10,
+                0.5,
+                50,
+                1
+            ],
+            'heatmap-opacity': {
+                default: 1,
+                stops: [
+                    [14, 1],
+                    [15, 0]
+                ]
+            },
+            'heatmap-radius': {
+                stops: [
+                    [11, 15],
+                    [15, 20]
+                ]
+            },
+        }
+    });
+
 
         map.addLayer({
-            id: 'heatmap-inspections',
-            type: 'heatmap',
-            source: 'RestaurantInspections',
-            maxzoom: 15,
-            paint: {
-                // Increase the heatmap weight based on frequency and property magnitude
-                'heatmap-color': [
-                    'interpolate',
-                    ['linear'],
-                    ['heatmap-density'],
-                    0,
-                    'rgba(236,222,239,0)',
-                    0.2,
-                    'rgb(208,209,230)',
-                    0.4,
-                    'rgb(166,189,219)',
-                    0.9,
-                    'rgb(103,169,207)',
-                    1,
-                    'rgb(28,144,153)'
-                ],
-                // increase intensity as zoom level increases
-                'heatmap-intensity': {
-                    stops: [
-                        [13, 1],
-                        [17, 3]
-                    ]
-                },
-                'heatmap-weight': [
-                    'interpolate',
-                    ['linear'],
-                    ['get', 'score'],
-                    0,
-                    0,
-                    10,
-                    0.5,
-                    50,
-                    1
-                ],
-                'heatmap-opacity': {
-                    default: 1,
-                    stops: [
-                        [14, 1],
-                        [15, 0]
-                    ]
-                },
-                'heatmap-radius': {
-                    stops: [
-                        [11, 15],
-                        [15, 20]
-                    ]
-                },
-            }
-        });
-        map.addLayer({
-            id: 'point-complaints',
+            id: 'cluster-complaints',
             type: 'circle',
             source: 'Complaints',
-            minzoom: 11,
             paint: {
                 'circle-color': '#c97fe4',
-                'circle-radius': 4,
-                'circle-opacity': 0.8
-            }
-        }),
+                'circle-radius': [
+                    'step',
+                    ['get', 'point_count'],
+                    10,
+                    10,
+                    20,
+                    50,
+                    30
+                ],
+                'circle-opacity': 0.6,
+            },
+        })
     map.addLayer({
         id: 'point-inspections',
         type: 'circle',
@@ -121,29 +130,6 @@ map.on('load', function () {
         }
 
     })
-
-
-
-
-        map.addLayer({
-            id: 'cluster-complaints',
-            type: 'circle',
-            source: 'Complaints',
-            paint: {
-                'circle-color': '#c97fe4',
-                'circle-radius': [
-                    'step',
-                    ['get', 'point_count'],
-                    10,
-                    10,
-                    20,
-                    50,
-                    30
-                ],
-                'circle-opacity': 0.6,
-            },
-        })
-
     map.addLayer({
         id: 'cluster-count-complaints',
         type: 'symbol',
