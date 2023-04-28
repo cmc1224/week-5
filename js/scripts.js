@@ -47,9 +47,9 @@ map.on('load', function () {
                 'rgb(208,209,230)',
                 0.4,
                 'rgb(166,189,219)',
-                0.9,
+                0.6,
                 'rgb(103,169,207)',
-                1,
+                0.8,
                 'rgb(28,144,153)'
             ],
             // increase intensity as zoom level increases
@@ -59,17 +59,6 @@ map.on('load', function () {
                     [17, 3]
                 ]
             },
-            'heatmap-weight': [
-                'interpolate',
-                ['linear'],
-                ['get', 'score'],
-                0,
-                0,
-                10,
-                0.5,
-                50,
-                1
-            ],
             'heatmap-opacity': {
                 default: 1,
                 stops: [
