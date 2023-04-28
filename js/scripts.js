@@ -29,7 +29,7 @@ map.on('load', function () {
             clusterMaxZoom: 20, // Max zoom to cluster points on
             clusterRadius: 40 // Radius of each cluster when clustering points (defaults to 50)
         })
-
+// Heatmap of violations
     map.addLayer({
         id: 'heatmap-inspections',
         type: 'heatmap',
@@ -56,7 +56,7 @@ map.on('load', function () {
             'heatmap-intensity': {
                 stops: [
                     [13, 1],
-                    [17, 3]
+                    [15, 3]
                 ]
             },
             'heatmap-opacity': {
@@ -75,7 +75,7 @@ map.on('load', function () {
         }
     });
 
-
+//311 Complaints 
         map.addLayer({
             id: 'cluster-complaints',
             type: 'circle',
@@ -94,13 +94,14 @@ map.on('load', function () {
                 'circle-opacity': 0.6,
             },
         })
+//violations as point at restaurant location
     map.addLayer({
         id: 'point-inspections',
         type: 'circle',
         source: 'RestaurantInspections',
         minzoom: 15,
         paint: {
-            // Color circle by inspection score
+            // Color circle by grade given to restaurant
             'circle-color': [
                 'match',
                 ['get', 'GRADE'],
@@ -117,7 +118,7 @@ map.on('load', function () {
             // Transition from heatmap to circle layer by zoom level
             'circle-opacity': 1
         }
-
+//count symbol for clusters
     })
     map.addLayer({
         id: 'cluster-count-complaints',
@@ -134,6 +135,7 @@ map.on('load', function () {
         }
     });
 
+//setting popup and content
     map.on('click', 'point-inspections', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
         new mapboxgl.Popup()
